@@ -40,6 +40,13 @@
             <a class="nav-link" href="{{ route('admin.posts.index') }}">backend</a>
         </li>
     </ul>
+    @if(Auth::check())
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ route('posts.user', ['id' => Auth::id()]) }}">{{ Auth::user()->name }}</a>
+        </li>
+    </ul>
+    @endif
 </nav>
 
 <div class="container">

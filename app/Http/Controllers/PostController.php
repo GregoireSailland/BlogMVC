@@ -18,7 +18,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::with('category', 'user')->visibleForUser()->orderBy('created_at', 'desc')->paginate($this->per_page);
+        $posts = Post::visibleForUser()->with('category', 'user')->orderBy('created_at', 'desc')->paginate($this->per_page);
         return view('posts.index', compact('posts'));
     }
 

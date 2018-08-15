@@ -14,7 +14,8 @@
 @endsection
 
 @section("main")
-    @if($posts)<p class="text-right">{{ $posts->posts_count }} Posts</p>@endif
+    @if(0){{ dd($posts) }}@endif
+    @if($posts)<p class="text-right">{{ $posts->count() }} Posts</p>@endif
     @foreach($posts as $post)
         <h2><a href="{{ route('posts.show', ['slug' => $post->slug]) }}">{{ $post->name }}</a></h2>
         <p>
