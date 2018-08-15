@@ -42,6 +42,19 @@
             </div>
         </div>
         @endcan
+
+        <div id="privatePost" class="col-sm-6">
+            <div class="form-group @if($errors->first('private')) has-danger @endif">
+                <label>
+                    {!! Form::checkbox('private',1,$post->private) !!}
+                    Private
+                </label>
+                @if($errors->first('private'))
+                <small class="form-control-feedback">{{ $errors->first('private') }}</small>
+                @endif
+            </div>
+        </div>
+
     </div>
     <div class="form-group @if($errors->first('content')) has-danger @endif">
         {!! Form::label('content', 'Content') !!}

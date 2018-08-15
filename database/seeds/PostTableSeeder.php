@@ -36,6 +36,9 @@ class PostTableSeeder extends Seeder
                 DB::table('posts')->insert([
                     'name' => $faker->name,
                     'slug' => $faker->slug,
+                    'private' => mt_rand(0,1) 
+                                    ? false 
+                                    : true,
                     'content' => $faker->text,
                     'created_at' => $faker->dateTime,
                     'updated_at' => $faker->dateTime,

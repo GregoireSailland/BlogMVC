@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
@@ -8,13 +7,18 @@ use App\Post;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-
+if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
+    // Ignores notices and reports all other kinds... and warnings
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+    // error_reporting(E_ALL ^ E_WARNING); // Maybe this is enough
+}
 class PostController extends \App\Http\Controllers\Controller {
 
     public function index () {
         //dd(Gate::allows('update-post'));
         $this->authorize('view', Post::class);
-        $posts = Post::with('category')-> orderBy('created_at', 'desc')-> paginate(10);
+        $posts = Post::with('category')->ofUser()->orderBy('created_at', 'desc')->paginate(10);
+        //->where('user_id', Auth::user()->id)
         return view('admin.posts.index', ['posts' => $posts]);
     }
 
@@ -45,7 +49,7 @@ class PostController extends \App\Http\Controllers\Controller {
         $this->authorize('update',$post);
         //$post->update($request->all());
         $post->update($this->params($request));
-        return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully');
+        return redirect()->route('admin.posts.edit', ['id' => $post->id])->with('success', 'Post updated successfully');
     }
 
     public function destroy(Post $post) {
@@ -55,6 +59,7 @@ class PostController extends \App\Http\Controllers\Controller {
     }
 
     private function params($request){
+        if(!$request['private'])$request['private']=false;
         $user = Auth::user();
         if($user->can('changeOwner',Post::class)){
             return $request->all();

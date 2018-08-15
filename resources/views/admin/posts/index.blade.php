@@ -15,13 +15,15 @@
                 <th>Category</th>
                 <th>Publication date</th>
                 <th>Actions</th>
+                <th>Status</th>
+                <th>Author</th>
             </tr>
         </thead>
         <tbody>
             @foreach($posts as $post)
                 <tr>
                     <td>{{ $post->id }}</td>
-                    <td>{{ $post->name }}</td>
+                    <td><a href="{{ route('posts.show', ['slug' => $post->slug]) }}">{{ $post->name }}</a></td>
                     <td>{{ $post->category->name }}</td>
                     <td>{{ $post->created_at->format('d/m/Y H:i') }}</td>
                     <td>
@@ -33,6 +35,16 @@
                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                             {!! Form::close() !!}
                         @endcan
+                    </td>
+                    <td>
+                       @if($post->private)
+                        Private
+                        @else
+                        Public
+                        @endif
+                    </td>
+                    <td>
+                       <a href="{{ route('posts.user', ['id' => $post->user->id]) }}">{{ $post->user->name }}</a>
                     </td>
                 </tr>
             @endforeach

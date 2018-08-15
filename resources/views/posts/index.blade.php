@@ -14,6 +14,7 @@
 @endsection
 
 @section("main")
+    @if($posts)<p class="text-right">{{ $posts->posts_count }} Posts</p>@endif
     @foreach($posts as $post)
         <h2><a href="{{ route('posts.show', ['slug' => $post->slug]) }}">{{ $post->name }}</a></h2>
         <p>
@@ -21,6 +22,7 @@
                 Category : <a href="{{ route('posts.category', ['slug' => $post->category->slug]) }}">{{ $post->category->name }}</a>
                 by <a href="{{ route('posts.user', ['id' => $post->user->id]) }}">{{ $post->user->name }}</a>
                 on {{ $post->created_at->format('M dS Y') }}
+                @if($post->private) <b>private</b> @else <b>public</b> @endif
             </small>
         </p>
         <p>

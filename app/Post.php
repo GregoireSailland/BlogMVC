@@ -4,7 +4,7 @@ namespace App;
 
 use App\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
@@ -27,7 +27,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'content', 'category_id', 'user_id'];
+    protected $fillable = ['name', 'slug', 'content', 'category_id', 'user_id','private'];
 
     public function category()
     {
@@ -56,7 +56,24 @@ class Post extends Model
         return $text;
     }
 
+    public function getDates(){
+        return ['created_at','updated_at','published_at'];
+    }
 
+    public function scopeVisibleForUser($query){
+        if(Auth::guest())return $query->where('private',false);
+        //if(Auth::id()){
+            if(Auth::user()->isAdmin()) return $query;
+            else return $query->where('private',false)->orWhere('user_id', Auth::id());//
+        //}else return $query->where('private',false);
+    }
+
+    public function scopeOfUser($query){
+        if(Auth::guest())return;
+        if(Auth::user()->isAdmin()) return $query;
+        else return $query->Where('user_id', Auth::id());//
+        
+    }
 }
 
 
