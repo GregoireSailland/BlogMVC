@@ -19,7 +19,7 @@
     @foreach($posts as $post)
         <h2><a href="{{ route('posts.show', ['slug' => $post->slug]) }}">{{ $post->name }}</a></h2>
         <p>
-            <small>
+            <small>     
                 Category : <a href="{{ route('posts.category', ['slug' => $post->category->slug]) }}">{{ $post->category->name }}</a>
                 by <a href="{{ route('posts.user', ['id' => $post->user->id]) }}">{{ $post->user->name }}</a>
                 on {{ $post->created_at->format('M dS Y') }}

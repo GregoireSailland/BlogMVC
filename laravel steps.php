@@ -1,7 +1,11 @@
 redo database with filling content
 	php artisan migrate:refresh --seed
 
-
+Cache Problems solving:
+	php artisan config:cache
+	php artisan cache:clear
+	php artisan route:list
+	php artisan dump-autoload
 
 
 composer global require "laravel/installer"

@@ -69,3 +69,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.', 'mi
 	);
 	/**///Route::get('/poss/{post}/edit','PostController@edit')->middleware('can:update-post',post);
 });
+
+
+/*Route::group(['middleware' => 'auth'], function () {
+    Route::get('/laravel-filemanager', '\UniSharp\LaravelFilemanager\controllers\LfmController@show');
+    Route::post('/laravel-filemanager/upload', '\UniSharp\LaravelFilemanager\controllers\UploadController@upload');
+    // list all lfm routes here...
+});*/
